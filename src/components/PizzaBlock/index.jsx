@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 
 function PizzaBlock({ title, price, imageUrl, types, sizes }) {
@@ -55,7 +55,7 @@ function PizzaBlock({ title, price, imageUrl, types, sizes }) {
             />
           </svg>
           <span>Add</span>
-          <i></i>
+          <i>0</i>
         </button>
       </div>
     </div>
