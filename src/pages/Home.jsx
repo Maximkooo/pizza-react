@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Sort from '../components/Sort'
 import Categories from '../components/Categories'
 import PizzaBlock from '../components/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton'
+import { SearchContext } from "../App"
 
 const Home = () => {
   const [pizzas, setPizzas] = useState([])
@@ -12,20 +13,21 @@ const Home = () => {
   const [sortType, setSortType] = useState(
     { name: 'popularity', type: 'rating' }
   )
-
+  const { searchValue } = useContext(SearchContext)
 
   useEffect(() => {
     setIsLoading(true)
-    const category = categoryId && `&category=${categoryId}`
+    const category = categoryId ? `&category=${categoryId}` : ''
+    const search = searchValue && `&search=${searchValue}`
 
-    fetch(`https://644d52f7cfdddac970a26574.mockapi.io/pizzas?${category}&sortBy=${sortType.type}&order=${sortOrder}`)
+    fetch(`https://644d52f7cfdddac970a26574.mockapi.io/pizzas?${category}&sortBy=${sortType.type}&order=${sortOrder}${search}`)
       .then((response) => response.json())
       .then((data) => {
         setPizzas(data);
         setIsLoading(false);
       })
     window.scrollTo(0, 0)
-  }, [categoryId, sortType, sortOrder])
+  }, [categoryId, sortType, sortOrder, searchValue])
 
 
 
