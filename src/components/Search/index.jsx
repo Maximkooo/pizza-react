@@ -26,7 +26,7 @@ const Search = () => {
         onChange={(e) => setSearchValue(e.target.value)} >
       </input>
       <svg
-        onClick={() => setSearchValue('')}
+        onClick={() => setSearchValue('а')}
         className={styles.clearIcon}
         xmlns="http://www.w3.org/2000/svg"
         height="48"
