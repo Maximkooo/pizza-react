@@ -3,6 +3,8 @@ import Sort from '../components/Sort'
 import Categories from '../components/Categories'
 import PizzaBlock from '../components/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton'
+import axios from "axios"
+
 import { SearchContext } from "../App"
 import { useSelector, useDispatch } from "react-redux"
 import { setCategoryId, setSortOrder, setSortType } from "../redux/slices/filterSlice"
@@ -11,20 +13,16 @@ const Home = () => {
   const [pizzas, setPizzas] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const { searchValue } = useContext(SearchContext)
-  const categoryId = useSelector((state) => state.filters.categoryId)
-  const sortOrder = useSelector((state) => state.filters.sortOrder)
-  const sortType = useSelector((state) => state.filters.sortType)
+  const { categoryId, sortOrder, sortType } = useSelector((state) => state.filters)
   const dispatch = useDispatch()
 
   useEffect(() => {
     setIsLoading(true)
     const category = categoryId ? `&category=${categoryId}` : ''
     const search = searchValue && `&search=${searchValue}`
-
-    fetch(`https://644d52f7cfdddac970a26574.mockapi.io/pizzas?${category}&sortBy=${sortType.type}&order=${sortOrder}${search}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setPizzas(data);
+    axios.get(`https://644d52f7cfdddac970a26574.mockapi.io/pizzas?${category}&sortBy=${sortType.type}&order=${sortOrder}${search}`)
+      .then((response) => {
+        setPizzas(response.data);
         setIsLoading(false);
       })
     window.scrollTo(0, 0)
